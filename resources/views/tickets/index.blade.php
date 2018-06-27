@@ -25,7 +25,7 @@
                                     <td>{!! $ticket->id !!} </td>
                                     <td>{!! $ticket->title !!}</td>
                                     <td>{!! $ticket->status ? 'Pendiente' : 'Respondido' !!}</td>
-                                    <td><a href="" class="btn btn-info">Ver</a></td>
+                                    <td><a href="{!! action('TicketsController@show', $ticket->slug ) !!}" class="btn btn-info">Ver</a></td>
                                 </tr>
                             @endforeach
                         </tbody>
