@@ -43,7 +43,7 @@ class TicketsController extends Controller
         $ticket = new Ticket(array(
             'title'=>$request->get('title'),
             'content'=>$request->get('content'),
-            'content'=>$slug
+            'slug'=>$slug
 
         ));
 
@@ -58,9 +58,10 @@ class TicketsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
-        //
+        $ticket = Ticket::whereSlug($slug)->firstOrFail();
+        return view('tickets.show', compact('ticket'));
     }
 
     /**

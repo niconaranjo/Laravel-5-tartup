@@ -16,6 +16,7 @@
                                 <th>ID</th>
                                 <th>Título</th>
                                 <th>Status</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -24,6 +25,7 @@
                                     <td>{!! $ticket->id !!} </td>
                                     <td>{!! $ticket->title !!}</td>
                                     <td>{!! $ticket->status ? 'Pendiente' : 'Respondido' !!}</td>
+                                    <td><a href="" class="btn btn-info">Ver</a></td>
                                 </tr>
                             @endforeach
                         </tbody>
