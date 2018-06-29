@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 use App\Http\Requests\TicketFormRequest;
-
 use App\Ticket;
+use Illuminate\Http\Request;
 
 class TicketsController extends Controller
 {
@@ -41,15 +39,15 @@ class TicketsController extends Controller
     {
         $slug = uniqid();
         $ticket = new Ticket(array(
-            'title'=>$request->get('title'),
-            'content'=>$request->get('content'),
-            'slug'=>$slug
+            'title' => $request->get('title'),
+            'content' => $request->get('content'),
+            'slug' => $slug,
 
         ));
 
         $ticket->save();
 
-        return redirect('/contact')->with('status', 'Su Ticket ha sido creado. Su id Unica es: '. $slug );
+        return redirect('/contact')->with('status', 'Su Ticket ha sido creado. Su id Unica es: ' . $slug);
     }
 
     /**
@@ -70,9 +68,10 @@ class TicketsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($slug)
     {
-        //
+        $ticket = Ticket::whereSlug($slug)->firstOrFail();
+        return view('tickets.edit', compact('ticket'));
     }
 
     /**
@@ -82,9 +81,19 @@ class TicketsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update($slug, TicketFormRequest $request)
     {
-        //
+        $ticket = Ticket::whereSlug($slug)->firstOrFail();
+        $ticket->title = $request->get('title');
+        $ticket->content = $request->get('content');
+        if ($request->get('status') != null) {
+            $ticket->status = 0;
+        } else {
+            $ticket->status = 1;
+        }
+        $ticket->save();
+        return redirect(action('TicketsController@edit', $ticket->slug))->with('status', 'El Ticket '. $slug .' ha sido actualizado!');
+
     }
 
     /**
@@ -93,8 +102,10 @@ class TicketsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($slug)
     {
-        //
+        $ticket = Ticket::whereSlug($slug)->firstOrFail();
+        $ticket->delete();
+        return redirect('/tickets')->with('status', 'El Ticket '. $slug .' ha sido borrado!');
     }
 }

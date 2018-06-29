@@ -14,12 +14,17 @@
 Route::get('/', 'PagesController@home');
 Route::get('/about', 'PagesController@about');
 
-//Contact
+//Tickets Creat 
 Route::get('/contact', 'TicketsController@create');
 Route::post('/contact', 'TicketsController@store'); 
 
-//Tickets
+//Tickets Read
 Route::get('/tickets', 'TicketsController@index'); 
 Route::get('/tickets/{slug?}', 'TicketsController@show'); 
+//Tickets update
+Route::get('/tickets/{slug?}/edit', 'TicketsController@edit'); 
+Route::post('/tickets/{slug?}/edit', 'TicketsController@update'); 
+//Tickets Delete
+Route::post('/tickets/{slug?}/delete', 'TicketsController@destroy'); 
 
 
